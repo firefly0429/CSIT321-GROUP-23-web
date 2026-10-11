@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { sessionRepository as repo } from '../src/services/sessionRepository';
+import { scenarios } from '../src/data/scenarios';
+import type { SessionResult } from '../src/types';
+test('local cache isolates identities, persists retry queue and surfaces write failures',()=>{
+  const values=new Map<string,string>(); let fail=false;
+  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:(k:string)=>values.get(k)??null,setItem:(k:string,v:string)=>{if(fail)throw new Error('quota');values.set(k,v)},removeItem:(k:string)=>values.delete(k)}});
+  const a={userId:'a',role:'trainee' as const,authMode:'cloud' as const}, b={...a,userId:'b'};
+  const s:SessionResult={sessionId:randomUUID(),userId:a.userId,scenarioId:'ladder-inspection',scenarioName:'Ladder Inspection',source:'unity',trainingMode:'desktop',revision:1,startTime:new Date().toISOString(),durationSeconds:0,runningSince:Date.now(),finalScore:0,maxPossibleScore:100,completedTaskCount:0,totalTaskCount:5,mistakeCount:0,passed:false,status:'in-progress',taskResults:scenarios[0].tasks,improvementNotes:[],interactionLogs:[]};
+  repo.setOwner(a); repo.commit(s); assert.equal(repo.pending().length,1); assert.equal(repo.loadActiveSession()?.runningSince,undefined);
+  repo.setOwner(b); assert.equal(repo.loadActiveSession(),null); assert.equal(repo.loadAllSessions().length,0); assert.throws(()=>repo.commit(s));
+  repo.setOwner(a); assert.equal(repo.loadActiveSession()?.sessionId,s.sessionId);
+  repo.commit({...s,revision:2}); repo.acknowledge(s); assert.equal(repo.pending()[0].revision,2);
+  repo.acknowledge({...s,revision:2}); assert.equal(repo.pending().length,0);
+  fail=true; assert.throws(()=>repo.commit({...s,revision:3}),/Cannot save/); fail=false;
+  assert.equal(repo.loadActiveSession()?.revision,2);
+  repo.setOwner(null); assert.equal(repo.loadActiveSession(),null);
+});

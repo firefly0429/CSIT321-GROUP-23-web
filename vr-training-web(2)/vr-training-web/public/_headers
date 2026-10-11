@@ -1,0 +1,5 @@
+/*
+  Permissions-Policy: xr-spatial-tracking=(self), fullscreen=(self)
+  X-Content-Type-Options: nosniff
+/unity/Build/*.wasm
+  Content-Type: application/wasm

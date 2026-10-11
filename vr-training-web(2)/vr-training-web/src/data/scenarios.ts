@@ -1,0 +1,140 @@
+import type { Scenario } from "../types";
+
+export const scenarios: Scenario[] = [
+  {
+    id: "ladder-inspection",
+    name: "Ladder Inspection",
+    domain: "Workplace Safety",
+    difficulty: "Beginner",
+    estimatedMinutes: 8,
+    description:
+      "Inspect a work area, put on safety equipment, secure a ladder, check every rung, and confirm the inspection is complete.",
+    objectives: [
+      "Identify and clear workplace hazards before starting work",
+      "Correctly wear required safety equipment",
+      "Secure equipment before use",
+      "Inspect equipment for damage before relying on it",
+    ],
+    controls: [
+      "Unity: follow the controls provided in the scene or use VR controllers",
+      "Browser demo: use the labelled step buttons",
+      "Inspect equipment before confirming each task",
+      "Use the on-screen buttons to confirm a choice",
+    ],
+    safetyInstructions:
+      "For headset training, clear a safe play area and follow your headset boundary. Stop if you feel discomfort. Browser demo mode does not require a headset.",
+    passScore: 70,
+    tasks: [
+      {
+        id: "inspect-area",
+        title: "Inspect the surrounding area",
+        description: "Find and remove the hazard on the floor before doing anything else.",
+        required: true,
+        maxScore: 20,
+        completed: false,
+        mistakes: 0,
+      },
+      {
+        id: "wear-equipment",
+        title: "Wear safety equipment",
+        description: "Drag the safety helmet onto the trainee to put it on.",
+        required: true,
+        maxScore: 20,
+        completed: false,
+        mistakes: 0,
+      },
+      {
+        id: "secure-ladder",
+        title: "Secure the ladder",
+        description: "Activate both the left and right ladder locks.",
+        required: true,
+        maxScore: 20,
+        completed: false,
+        mistakes: 0,
+      },
+      {
+        id: "inspect-rungs",
+        title: "Inspect ladder rungs",
+        description: "Check all five rungs and correctly identify the damaged one.",
+        required: true,
+        maxScore: 20,
+        completed: false,
+        mistakes: 0,
+      },
+      {
+        id: "confirm-inspection",
+        title: "Confirm final inspection",
+        description: "Review the checklist and complete the inspection.",
+        required: true,
+        maxScore: 20,
+        completed: false,
+        mistakes: 0,
+      },
+    ],
+    available: true,
+  },
+  {
+    id: "fire-extinguisher-inspection",
+    name: "Fire Extinguisher Inspection",
+    domain: "Workplace Safety",
+    difficulty: "Beginner",
+    estimatedMinutes: 6,
+    description: "Check pressure gauges, pins, and hose condition on a fire extinguisher station.",
+    objectives: [],
+    controls: [],
+    safetyInstructions: "",
+    passScore: 70,
+    tasks: [],
+    available: false,
+  },
+  {
+    id: "equipment-safety-check",
+    name: "Equipment Safety Check",
+    domain: "Workplace Safety",
+    difficulty: "Intermediate",
+    estimatedMinutes: 10,
+    description: "Perform a pre-use safety check on powered hand tools.",
+    objectives: [],
+    controls: [],
+    safetyInstructions: "",
+    passScore: 70,
+    tasks: [],
+    available: false,
+  },
+  {
+    id: "cpr-sequence",
+    name: "CPR Sequence",
+    domain: "Healthcare Training",
+    difficulty: "Beginner",
+    estimatedMinutes: 6,
+    description: "Content ready for future Unity integration - check responsiveness, call for help, compress, and breathe.",
+    objectives: [],
+    controls: [],
+    safetyInstructions: "",
+    passScore: 70,
+    tasks: [],
+    available: false,
+  },
+  {
+    id: "sensor-logic-assembly",
+    name: "Sensor & Logic Assembly",
+    domain: "Technical Maintenance",
+    difficulty: "Beginner",
+    estimatedMinutes: 7,
+    description: "Content ready for future Unity integration - select, mount, wire, and verify a sensor module.",
+    objectives: [],
+    controls: [],
+    safetyInstructions: "",
+    passScore: 70,
+    tasks: [],
+    available: false,
+  },
+];
+
+export function getScenarioById(id: string | undefined): Scenario | undefined {
+  return scenarios.find((s) => s.id === id);
+}
+
+export function getDomains(): string[] {
+  return Array.from(new Set(scenarios.map((s) => s.domain)));
+}

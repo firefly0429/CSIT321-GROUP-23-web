@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: #0F1C2E;
+  color: #E8EEF6;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #33486A #16243A;
+}
+
+.reduced-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+.high-contrast {
+  --tw-text-opacity: 1;
+}
+
+.high-contrast .surface-panel {
+  border-color: #E8EEF6 !important;
+}
+
+/* Previously only card borders changed - text-muted (used throughout for
+   secondary/supporting text) stayed at its normal, lower-contrast colour,
+   which is the opposite of what a high-contrast mode is meant to fix. */
+.high-contrast .text-muted {
+  color: #D8E2EF !important;
+}
+
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  border-color: #E8EEF6 !important;
+}
+
+.high-contrast [role="button"]:focus-visible,
+.high-contrast button:focus-visible,
+.high-contrast a:focus-visible {
+  outline: 2px solid #E8EEF6 !important;
+  outline-offset: 2px;
+}

@@ -1,0 +1,4 @@
+{
+  "headers": [{"source":"/(.*)","headers":[{"key":"Permissions-Policy","value":"xr-spatial-tracking=(self), fullscreen=(self)"},{"key":"X-Content-Type-Options","value":"nosniff"}]}],
+  "rewrites": [{"source":"/((?!unity/|assets/).*)","destination":"/index.html"}]
+}
