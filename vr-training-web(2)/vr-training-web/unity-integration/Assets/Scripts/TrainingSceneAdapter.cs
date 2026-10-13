@@ -32,4 +32,8 @@ public class TrainingSceneAdapter : MonoBehaviour
         onSettingsJson.Invoke(JsonUtility.ToJson(settings));
     }
     public void End() { onExit.Invoke(); }
+    private void OnDisable()
+    {
+        Time.timeScale = 1f;
+    }
 }
