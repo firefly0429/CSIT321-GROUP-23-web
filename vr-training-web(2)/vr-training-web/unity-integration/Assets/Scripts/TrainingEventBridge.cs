@@ -53,7 +53,16 @@ public class TrainingEventBridge : MonoBehaviour
     public void OnCommand(string json) {
         Command c;
         try { c = JsonUtility.FromJson<Command>(json); } catch { return; }
-        if (c == null || string.IsNullOrEmpty(c.commandId) || c.scenarioId != scenarioId || sceneAdapter == null) return;
+        if (c == null ||
+    string.IsNullOrWhiteSpace(c.commandId) ||
+    string.IsNullOrWhiteSpace(c.sessionId) ||
+    string.IsNullOrWhiteSpace(c.type) ||
+    c.scenarioId != scenarioId ||
+    sceneAdapter == null)
+{
+    Debug.LogWarning("Invalid training command received.");
+    return;
+}
         if (acknowledgements.TryGetValue(c.commandId, out var previous)) { EmitJson(previous); return; }
         var ack = new Packet { type = "COMMAND_ACK", commandId = c.commandId, sessionId = c.sessionId, scenarioId = scenarioId, ok = true };
         try {
