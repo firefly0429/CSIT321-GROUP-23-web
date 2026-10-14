@@ -13,7 +13,18 @@ public class TrainingScoring : MonoBehaviour
         completed.Clear();
         var snapshot = JsonUtility.FromJson<TrainingEventBridge.Snapshot>(json);
         if (snapshot?.taskResults == null) return;
-        foreach (var task in snapshot.taskResults) if (task.completed) completed.Add(task.id);
+        
+foreach (var task in snapshot.taskResults)
+{
+    if (task != null &&
+        task.completed &&
+        !string.IsNullOrEmpty(task.id) &&
+        System.Array.IndexOf(order, task.id) >= 0)
+    {
+        completed.Add(task.id);
+    }
+}
+
     }
     public void CompleteTask(string taskId) {
         if (bridge == null || !bridge.IsRunning || completed.Contains(taskId)) return;
